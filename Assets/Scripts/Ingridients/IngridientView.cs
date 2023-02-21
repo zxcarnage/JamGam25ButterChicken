@@ -7,12 +7,11 @@ public class IngridientView : MonoBehaviour
 
     [SerializeField] private Image _image;
     [SerializeField] private Text _name;
-    [SerializeField] private bool _isPicked;
 
+    public Ingridient ingridient => _ingridient;
     private void Start()
     {
         _image.sprite = _ingridient.Icon;
         _name.text = _ingridient.Name;
-        _isPicked = _ingridient.IsPicked;
     }
 }
