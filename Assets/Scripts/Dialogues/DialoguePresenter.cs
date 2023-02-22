@@ -13,13 +13,17 @@ public class DialoguePresenter
 
     public void Enable()
     {
+        _view.InitCharacters();
+        _view.SetText(_model.GetNextDialogue());
         _view.Click += OnViewClicked;
+        _model.CharacterChanged += _view.ChangeCharacter;
         _model.DialoguesEnded += _view.OnDialogueEnded;
     }
 
     public void Disable()
     {
         _view.Click -= OnViewClicked;
+        _model.CharacterChanged -= _view.ChangeCharacter;
         _model.DialoguesEnded -= _view.OnDialogueEnded;
     }
 
@@ -29,6 +33,7 @@ public class DialoguePresenter
             return;
         _view.SetText(dialogue);
     }
+    
 
     private void OnViewClicked()
     {

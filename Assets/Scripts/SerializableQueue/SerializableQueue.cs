@@ -13,7 +13,14 @@ public class SerializableQueue<T>
     {
         return _objectsQueue.Count == 0;
     }
-    
+
+    public T Peek()
+    {
+        if (Empty())
+            throw new InvalidOperationException();
+        return _objectsQueue.Peek();
+    }
+
     public T Dequeue()
     {
         if (!Empty())

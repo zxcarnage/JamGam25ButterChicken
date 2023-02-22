@@ -4,5 +4,8 @@ using UnityEngine;
 [Serializable]
 public class Dialogue
 {
-    [SerializeField] [TextArea(0,10)] public string DialogueText;
+    [SerializeField] public Character Character;
+    
+    [TextArea(0,10)] 
+    [SerializeField] public string DialogueText;
 }
