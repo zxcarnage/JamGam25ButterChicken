@@ -11,12 +11,9 @@ public class InitPickedIngredients : MonoBehaviour
     {
         List<Ingridient> pickedIngredients = new List<Ingridient>();
 
-        foreach(var ingredient in _allIngredients)
+        foreach (var ingredient in _allIngredients)
             if (ingredient.GetComponentInChildren<Toggle>().isOn == true)
                 pickedIngredients.Add(ingredient.GetComponent<IngridientView>().ingridient);
-
-        foreach (Ingridient ing in pickedIngredients)
-            Debug.Log(ing.name+'\n');
 
             return pickedIngredients;
     }
