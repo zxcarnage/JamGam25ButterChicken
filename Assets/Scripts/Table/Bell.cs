@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class Bell : MonoBehaviour
 {
     [SerializeField] private CanvasRenderer _dialoguePanel;
+    [SerializeField] private GoodButterChicken _goodButterChicken;
+
     private Button _bellButton;
 
     private void Awake()
@@ -24,6 +26,10 @@ public class Bell : MonoBehaviour
 
     private void OnBellClicked()
     {
-        _dialoguePanel.gameObject.SetActive(true);
+        if (_goodButterChicken.gameObject.activeInHierarchy)
+        {
+            _dialoguePanel.gameObject.SetActive(true);
+            _bellButton.enabled = false;
+        }
     }
 }
