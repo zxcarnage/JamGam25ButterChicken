@@ -1,31 +1,45 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CookButtonAction : MonoBehaviour
 { 
     [SerializeField] private Image _shadeIngredientsImage;
-    [SerializeField] private Button _clickButton;
+    [SerializeField] private InitPickedIngredients _pickedIngredients;
+    
+    private Button _clickButton;
 
-    private Text _buttonText;
+    private TMP_Text _buttonText;
     public event Action<List<Ingridient>> CookingEnded;
-    private InitPickedIngredients _pickedIngredients;
     private List<Ingridient> _ingredients;
 
     private void Awake()
     {
-        _pickedIngredients = GetComponent<InitPickedIngredients>();
-        _buttonText = _clickButton.GetComponentInChildren<Text>();
+        _clickButton = GetComponent<Button>();
+        _buttonText = _clickButton.GetComponentInChildren<TMP_Text>();
     }
+
+    private void OnEnable()
+    {
+        _clickButton.onClick.AddListener(OnCookButtonClick);
+    }
+
+    private void OnDisable()
+    {
+        _clickButton.onClick.RemoveListener(OnCookButtonClick);
+    }
+
     public void OnCookButtonClick()
     {
+        if (_pickedIngredients == null)
+            return;
         _shadeIngredientsImage.gameObject.SetActive(true);
         _buttonText.text = "In progress...";
         _ingredients = _pickedIngredients.GetPickedIngredients();
         StartCoroutine(CookingProcess());
-        
     }
 
     private IEnumerator CookingProcess()
