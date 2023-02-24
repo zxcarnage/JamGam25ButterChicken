@@ -14,7 +14,6 @@ public class InitPickedIngredients : MonoBehaviour
     private void Awake()
     {
         _requiredIngredients = GetComponent<AddListOfIngredientsOnScreen>();
-        //_allIngredients = new List<GameObject>();
         _requiredIngredients.AddIngredientFieldsToScreen();
         Init();
     }
@@ -25,8 +24,7 @@ public class InitPickedIngredients : MonoBehaviour
     }
     public List<Ingridient> GetPickedIngredients()
     {
-        //_allIngredients = _requiredIngredients.GetAllIngredientPannels();
-        
+        _pickedIngredients = new List<Ingridient>();
 
         foreach (var ingredient in _allIngredients)
             if (ingredient.GetComponentInChildren<Toggle>().isOn == true)
