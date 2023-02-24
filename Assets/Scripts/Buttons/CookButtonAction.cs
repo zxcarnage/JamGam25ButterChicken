@@ -38,6 +38,7 @@ public class CookButtonAction : MonoBehaviour
             return;
         _shadeIngredientsImage.gameObject.SetActive(true);
         _buttonText.text = "In progress...";
+        _clickButton.enabled =false;
         _ingredients = _pickedIngredients.GetPickedIngredients();
         StartCoroutine(CookingProcess());
     }
