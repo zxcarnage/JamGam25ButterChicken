@@ -5,12 +5,16 @@ using UnityEngine;
 [Serializable]
 public class DialogueModel
 {
+    private SerializableQueue<Dialogue> _goodDialogues;
+    private SerializableQueue<Dialogue> _badDialogues;
     private SerializableQueue<Dialogue> _dialogues;
     private Dialogue _currentDialogue;
     private Dialogue _previousDialogue;
-    
+
+    public SerializableQueue<Dialogue> Dialogues => _dialogues;
+
     public event Action DialoguesEnded;
-    public event Action CharacterChanged;
+    public event Action<Dialogue> CharacterChanged;
 
     public Dialogue GetNextDialogue()
     {
@@ -20,23 +24,32 @@ public class DialogueModel
         {
             _previousDialogue = _previousDialogue == null? _dialogues.Peek() : _currentDialogue;
             _currentDialogue = _dialogues.Dequeue();
-            TryChangeCharacter();
+            TryChangeCharacter(_currentDialogue);
             return _currentDialogue;
         }
         return null;
     }
 
-    private void TryChangeCharacter()
-    {
-        if (_dialogues.Empty() || _previousDialogue.Character.name != _currentDialogue.Character.name)
-        {
-            CharacterChanged?.Invoke();
-        }
+    private void TryChangeCharacter(Dialogue currentDialogue)
+    { 
+        CharacterChanged?.Invoke(currentDialogue);
     }
 
-    public void Init(SerializableQueue<Dialogue> dialogues)
+    public void Init(SerializableQueue<Dialogue> goodDialogues, SerializableQueue<Dialogue> badDialogues)
     {
-        _dialogues = dialogues;
-        _dialogues.UpdateQueue();
+        _goodDialogues = goodDialogues;
+        _badDialogues = badDialogues;
+        _goodDialogues.UpdateQueue();
+        _badDialogues.UpdateQueue();
+    }
+
+    public void SetGoodDialogues()
+    {
+        _dialogues = _goodDialogues;
+    }
+
+    public void SetBadDialogues()
+    {
+        _dialogues = _badDialogues;
     }
 }

@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour
 {
     [SerializeField] private string _characterName;
-
     [SerializeField] private Image _image;
+
+    public string CharacterName => _characterName;
 
     public void Highlight()
     {

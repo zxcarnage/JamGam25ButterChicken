@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -6,12 +8,16 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class DialogueView : MonoBehaviour
 {
-    [SerializeField] private Character[] _characters = new Character[2];
+    [SerializeField] private Customer _customer;
+    [SerializeField] private List<Character> _characters;
     [SerializeField] private TMP_Text _dialogueText;
     private Button _dialogueClick;
-    private bool _nextCharacter = false;
-    
+
     public event Action Click;
+
+    public event Action GoodDialoguesSetted;
+    public event Action BadDialoguesSetted;
+    public event Action DialogueStarted;
 
     private void Awake()
     {
@@ -30,6 +36,7 @@ public class DialogueView : MonoBehaviour
 
     public void OnDialogueEnded()
     {
+        _customer.GoAway();
         transform.parent.gameObject.SetActive(false);
     }
 
@@ -38,23 +45,31 @@ public class DialogueView : MonoBehaviour
         _dialogueText.text = dialogue.DialogueText.ToString();
     }
 
-    public void ChangeCharacter()
+    public void ChangeCharacter(Dialogue nextDialogue)
     {
-        var nextIndex = _nextCharacter ? 0 : 1;
-        var currentIndex = _nextCharacter ? 1 : 0;
-        _characters[nextIndex].Highlight();
-        _characters[currentIndex].UnHighlight();
-        _nextCharacter = !_nextCharacter;
+        InitCharacters(nextDialogue);
     }
 
-    public void InitCharacters()
+    public void InitCharacters(Dialogue dialogue)
     {
-        var nextIndex = _nextCharacter ? 0 : 1;
-        var currentIndex = _nextCharacter ? 1 : 0;
-        _characters[currentIndex].Highlight();
-        _characters[nextIndex].UnHighlight();
+        var onCharacter = _characters.Find(x => x.CharacterName == dialogue.Character.CharacterName);
+        var offCharacter = _characters.Find(x => x.CharacterName != dialogue.Character.CharacterName);
+        onCharacter.Highlight();
+        offCharacter.UnHighlight();
     }
 
+    public void SetGoodDialogues()
+    {
+        GoodDialoguesSetted?.Invoke();
+        DialogueStarted?.Invoke();
+    }
+
+    public void SetBadDialogues()
+    {
+        BadDialoguesSetted?.Invoke();
+        DialogueStarted?.Invoke();
+    }
+    
     private void OnClick()
     {
         Click?.Invoke();

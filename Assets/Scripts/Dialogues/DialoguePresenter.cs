@@ -13,8 +13,9 @@ public class DialoguePresenter
 
     public void Enable()
     {
-        _view.InitCharacters();
-        _view.SetText(_model.GetNextDialogue());
+        _view.GoodDialoguesSetted += _model.SetGoodDialogues;
+        _view.BadDialoguesSetted += _model.SetBadDialogues;
+        _view.DialogueStarted += OnDialogueStarted;
         _view.Click += OnViewClicked;
         _model.CharacterChanged += _view.ChangeCharacter;
         _model.DialoguesEnded += _view.OnDialogueEnded;
@@ -25,6 +26,9 @@ public class DialoguePresenter
         _view.Click -= OnViewClicked;
         _model.CharacterChanged -= _view.ChangeCharacter;
         _model.DialoguesEnded -= _view.OnDialogueEnded;
+        _view.GoodDialoguesSetted -= _model.SetGoodDialogues;
+        _view.BadDialoguesSetted -= _model.SetBadDialogues;
+        _view.DialogueStarted -= OnDialogueStarted;
     }
 
     private void OnDialogueChanged(Dialogue dialogue)
@@ -33,8 +37,13 @@ public class DialoguePresenter
             return;
         _view.SetText(dialogue);
     }
-    
 
+    private void OnDialogueStarted()
+    {
+        _view.InitCharacters(_model.Dialogues.Peek());
+        _view.SetText(_model.GetNextDialogue());
+    }
+    
     private void OnViewClicked()
     {
         var dialogue = _model.GetNextDialogue();
