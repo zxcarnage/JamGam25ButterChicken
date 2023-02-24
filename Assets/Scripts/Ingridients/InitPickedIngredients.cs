@@ -6,24 +6,34 @@ using UnityEngine.UI;
 [RequireComponent(typeof(AddListOfIngredientsOnScreen))]
 public class InitPickedIngredients : MonoBehaviour
 {
-    private List<GameObject> _allIngredients;
+    private IngridientView[] _allIngredients;
     private AddListOfIngredientsOnScreen _requiredIngredients;
+    [SerializeField] private ContentSizeFitter _content;
+    private List<Ingridient> _pickedIngredients;
 
     private void Awake()
     {
         _requiredIngredients = GetComponent<AddListOfIngredientsOnScreen>();
-        _allIngredients = new List<GameObject>();
-        _allIngredients = _requiredIngredients.AddIngredientFieldsToScreen();
+        //_allIngredients = new List<GameObject>();
+        _requiredIngredients.AddIngredientFieldsToScreen();
+        Init();
     }
 
+    private void Init()
+    {
+        _allIngredients = _content.GetComponentsInChildren<IngridientView>();
+    }
     public List<Ingridient> GetPickedIngredients()
     {
-        List<Ingridient> pickedIngredients = new List<Ingridient>();
+        //_allIngredients = _requiredIngredients.GetAllIngredientPannels();
+        
 
         foreach (var ingredient in _allIngredients)
             if (ingredient.GetComponentInChildren<Toggle>().isOn == true)
-                pickedIngredients.Add(ingredient.GetComponent<IngridientView>().Ingredient);
+                _pickedIngredients.Add(ingredient.GetComponent<IngridientView>().Ingredient);
 
-            return pickedIngredients;
+        foreach (var ingredient in _pickedIngredients)
+            Debug.Log(ingredient.Name + "\n");
+        return _pickedIngredients;
     }
 }

@@ -7,15 +7,22 @@ public class AddListOfIngredientsOnScreen : MonoBehaviour
     [SerializeField] private GameObject _ingredientFieldPrefab;
     [SerializeField] private GameObject _fieldsContainer;
 
-    public List<GameObject> AddIngredientFieldsToScreen()
+   // private List<GameObject> _listContainer;
+
+    public void AddIngredientFieldsToScreen()
     {
-        List<GameObject> listContainer = new List<GameObject>();
+        //_listContainer = new List<GameObject>();
         foreach (var ingredient in _allIngredientList)
         {
             _ingredientFieldPrefab.GetComponent<IngridientView>()._ingridient = ingredient;
             Instantiate(_ingredientFieldPrefab, _fieldsContainer.transform);
-            listContainer.Add(_ingredientFieldPrefab);
+            //_listContainer.Add(_ingredientFieldPrefab);
         }
-        return listContainer;
     }
+
+    /*public List<GameObject> GetAllIngredientPannels()
+    {
+
+        return _listContainer;
+    }*/
 }
