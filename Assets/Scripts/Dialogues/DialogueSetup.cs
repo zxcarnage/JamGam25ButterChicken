@@ -19,6 +19,11 @@ public class DialogueSetup : MonoBehaviour
         _presenter = new DialoguePresenter(_model, _view);
     }
 
+    public void SetupGoodDialogues()
+    {
+        _model.Init(_goodDialogues, _badDialogues);
+    }
+    
     private void OnEnable()
     {
         _presenter.Enable();
