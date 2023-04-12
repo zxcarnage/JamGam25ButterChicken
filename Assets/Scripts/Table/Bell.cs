@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class Bell : MonoBehaviour
 {
-    [SerializeField] private CanvasRenderer _dialoguePanel;
+    [SerializeField] private DialogueWindow _dialogueWindow;
     [SerializeField] private GoodButterChicken _goodButterChicken;
     [SerializeField] private BadButterChicken _badButterChicken;
-    [SerializeField] private DialogueView _dialogueView;
 
+    public Customer Customer { get; set; }
     private Button _bellButton;
 
     private void Awake()
@@ -36,18 +36,17 @@ public class Bell : MonoBehaviour
 
     private void OnBellClicked()
     {
-        _dialoguePanel.gameObject.SetActive(true);
-        
         if (_goodButterChicken.gameObject.activeInHierarchy)
         {
-            _dialogueView.SetGoodDialogues();
+            _dialogueWindow.Story = Customer.GoodStory;
             _goodButterChicken.gameObject.SetActive(false);
         }
         else if(_badButterChicken.gameObject.activeInHierarchy)
         {
-            _dialogueView.SetBadDialogues();
+            _dialogueWindow.Story = Customer.BadStory;
             _badButterChicken.gameObject.SetActive(false);
         }
+        _dialogueWindow.gameObject.SetActive(true);
         _bellButton.enabled = false;
     }
 }

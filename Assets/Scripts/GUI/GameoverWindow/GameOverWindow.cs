@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class GameOverWindow : MonoBehaviour
 {
-    [SerializeField] private Customer _customer;
     [SerializeField] private GameOverObjects _objects;
+    [SerializeField] private Customer _customer;
 
     private Image _panelImage;
 
